@@ -1,50 +1,88 @@
-h1{
-    color: rgb(22, 24, 34);
-    font-size: 50px;
-    text-align: bold;
+/* Removes default browser edge gaps */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-#home-page{
-    background-color: rgb(229, 235, 237);
+/* Navigation Bar Styling */
+#nav {
+    background-color: #b3c5ff;
     padding: 15px;
-    border-radius: 5px;
-    text-align: center;
-
-    border: 3px;
-    border-style: solid;
-    border-color: rgb(36, 24, 10);
-}
-
-
-
-#p1{
-    color: rgb(22, 24, 34);
-    font-size: 20px;
     text-align: center;
 }
 
-#p2{
-    color: rgb(44, 73, 217);
-    font-size: 20px;
-    text-align: center;
-}
-
-#home-page:hover{
-    background-color: rgb(126, 190, 200);
-}
-
-#nav{
-    background-color: rgb(180, 188, 231);
-    padding-top: 10px;
-    border-radius: 10px;
-    text-align: center;
-    height: 25px;
-}
-
-#nav a{
-    margin: 0px 5px;
-    padding: 5px 10px;
+#nav a {
+    margin: 0 15px;
     text-decoration: none;
-    color: rgb(7, 11, 25);
-    font-size: 15px;
+    color: #000;
+    font-weight: 500;
+}
+
+/* Full Width Box - No gap below navbar */
+#home-page {
+    background-color: #e2e8f0;
+    
+    /* Full border all around the box */
+    border: 2px solid #000; 
+    border-radius: 0; 
+    
+    width: 100%; 
+    box-sizing: border-box; 
+    
+    /* FIX: 0 removes the gap with navbar; 30px adds space before the profile card */
+    margin: 0 0 30px 0; 
+    
+    padding: 12px 20px; 
+    text-align: center;
+}
+
+/* Internal text spacing rules */
+#home-page h1 {
+    font-size: 2.2rem;
+    margin: 0 0 8px 0;
+}
+
+#p1 {
+    font-size: 1.05rem;
+    color: #333;
+    margin: 0 0 6px 0;
+}
+
+#p2 {
+    color: #1a56db;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* Profile Card Container */
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 20px auto;
+}
+
+/* Large square profile image */
+.profile-pic {
+    width: 180px;  
+    height: 180px; 
+    border-radius: 0; 
+    object-fit: cover;
+    margin-bottom: 12px;
+    border: none;
+}
+
+.profile-name {
+    margin: 6px 0;
+    font-size: 1.5rem;
+    color: #000;
+}
+
+.profile-gender {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
 }
