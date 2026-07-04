@@ -1,140 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BeingInfinity - Auto Suggest</title>
-    <style>
-        /* Top Navigation Bar: Aligns left and right items perfectly on the same row */
-        .top-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 25px;
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BeingInfinity - Auto Suggest</title>
 
-        /* Settings Gear Icon */
-        .settings-link {
-            font-size: 24px;
-            text-decoration: none;
-            color: #333;
-            line-height: 1;w
-        }
+<style>
+body{margin:0;font:16px Arial,sans-serif;background:#fff}
+.top-nav{display:flex;justify-content:space-between;align-items:center;padding:15px 25px}
+.settings-link{font-size:24px;text-decoration:none;color:#333}
+.status-area{display:flex;gap:8px;align-items:center;color:#202124}
+.color-being{color:rgb(191, 32, 32)}
+.color-infinity{color:blue}
 
-        /* Status Area on the Right */
-        .status-area {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #202124;
-        }
+/* Wrapper keeps search bar and dropdown aligned */
+.search-wrapper{position:relative;display:inline-block;width:480px;max-width:90vw;text-align:left}
 
-        /* Big dot beside Online text */
-        .status-dot {
-            font-size: 14px;
-            color: #070a08; /* Change to #202124 if you want a plain black dot */
-            line-height: 1;
-        }
+/* Curved Search Bar */
+.search-container{display:flex;align-items:center;width:100%;box-sizing:border-box;padding:8px 15px;border:1px solid #dfe1e5;border-radius:24px;background:#fff;box-shadow:0 1px 6px rgba(32,33,36,.28)}
+.lens-btn,.search-input{border:0;background:none}
+.lens-btn{cursor:pointer;font-size:18px;margin-right:8px;color:#5f6368}
+.search-input{width:100%;outline:0;font-size:16px}
 
-        /* Two distinct colors for the logo text */
-        .color-being {
-            color: #202124; /* Dark charcoal/black */
-        }
-        .color-infinity {
-            color: #1a73e8; /* Vibrant tech blue */
-        }
+/* Hidden by default, shows ONLY when input is clicked/focused */
+.dropdown-menu{display:none;position:absolute;top:100%;left:0;width:100%;margin-top:6px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15);border:1px solid #ebebeb;overflow:hidden;z-index:100}
+.search-input:focus ~ .dropdown-menu{display:block}
 
-        /* Curved wrapper containing both the left icon and the input field */
-        .search-container {
-            display: inline-flex;
-            align-items: center;
-            border: 1px solid #ccc;
-            border-radius: 25px;
-            padding: 5px 15px;
-            width: 450px;
-            max-width: 80vw;
-            background-color: #ffffff;
-        }
-
-        .search-container:focus-within {
-            border-color: #888;
-        }
-
-        /* Styles the lens button sitting inside on the left */
-        .lens-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px 10px 5px 5px;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Seamless input field without its own internal borders */
-        .search-input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 16px;
-            background: transparent;
-        }
-    </style>
+/* Suggestion items styling without lens icons */
+.suggestion-item{display:flex;align-items:center;padding:12px 18px;font-size:14px;color:#202124;cursor:pointer}
+.suggestion-item:hover{background:#f1f3f4}
+.suggestion-text{flex-grow:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.suggestion-subtext{color:#70757a;font-size:13px;margin-left:6px}
+</style>
 </head>
-<body bgcolor="#FFFFFF" style="margin: 0;">
+<body>
 
-    <header class="top-nav">
-        <a href="#settings" class="settings-link" aria-label="Settings" title="Settings">
-            &#9881;
-        </a>
+<header class="top-nav">
+<a href="#settings" class="settings-link">&#9881;</a>
+<div class="status-area">
+    <span>&#9679; Online</span>
+    <span>&#128340; <span id="search-time">0.02</span> ms</span>
+</div>
+</header>
 
-        <div class="status-area">
-            <span class="status-dot">&#9679;</span>
-            <span>Online</span>
-            <span>&#128340;</span> <span>0.02</span>
-        </div>
-    </header>
+<main align="center" style="margin-top:40px">
+<h1><span class="color-being">Being</span><span class="color-infinity">Infinity</span></h1>
 
-    <main align="center" style="margin-top: 50px;">
-        
-        <h1>
-            <span class="color-being">Being</span><span class="color-infinity">Infinity</span>
-        </h1>
+<p style="color: #666666;margin-bottom:25px;">
+    <small>One million phrases, four algorithms, prefix based auto suggest</small>
+</p>
 
-        <p>
-            <small>One million phrases, four algorithms, prefix based auto suggest</small>
-        </p>
-
-        <form action="#" method="get">
-            <div class="search-container">
-                
-                <button type="submit" class="lens-btn" aria-label="Search">
-                    &#128269;
-                </button>
-
-                <input 
-                    type="search" 
-                    class="search-input"
-                    id="search-bar" 
-                    name="query" 
-                    list="phrase-suggestions" 
-                    placeholder="Start typing..." 
-                    autocomplete="off"
-                >
-
+<form>
+    <div class="search-wrapper">
+        <div class="search-container">
+            <button type="submit" class="lens-btn">&#128269;</button>
+            <input type="search" class="search-input" placeholder="Start typing..." autocomplete="off">
+            
+            <div class="dropdown-menu">
+                <div class="suggestion-item">
+                    <span class="suggestion-text"><strong>prefix</strong> based search</span>
+                    <span class="suggestion-subtext">- Algorithm 1</span>
+                </div>
+                <div class="suggestion-item">
+                    <span class="suggestion-text"><strong>prefix</strong> trees and tries</span>
+                    <span class="suggestion-subtext">- Data Structures</span>
+                </div>
+                <div class="suggestion-item">
+                    <span class="suggestion-text">four algorithms overview</span>
+                    <span class="suggestion-subtext">- Documentation</span>
+                </div>
+                <div class="suggestion-item">
+                    <span class="suggestion-text">One Million phrases dataset</span>
+                    <span class="suggestion-subtext">- Benchmark</span>
+                </div>
             </div>
+        </div>
+    </div>
+</form>
 
-            <datalist id="phrase-suggestions">
-                <option value="prefix based search">
-                <option value="prefix trees and tries">
-                <option value="four algorithms overview">
-                <option value="one million phrases dataset">
-            </datalist>
-        </form>
-
-    </main>
-
+</main>
 </body>
 </html>
