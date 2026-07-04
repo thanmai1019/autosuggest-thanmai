@@ -4,80 +4,98 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BeingInfinity - Auto Suggest</title>
-
 <style>
 body{margin:0;font:16px Arial,sans-serif;background:#fff}
 .top-nav{display:flex;justify-content:space-between;align-items:center;padding:15px 25px}
 .settings-link{font-size:24px;text-decoration:none;color:#333}
 .status-area{display:flex;gap:8px;align-items:center;color:#202124}
-.color-being{color:rgb(191, 32, 32)}
-.color-infinity{color:blue}
+.color-being{color:#00f}
+.color-infinity{color:rgb(211, 19, 19)}
 
 /* Wrapper keeps search bar and dropdown aligned */
 .search-wrapper{position:relative;display:inline-block;width:480px;max-width:90vw;text-align:left}
 
 /* Curved Search Bar */
-.search-container{display:flex;align-items:center;width:100%;box-sizing:border-box;padding:8px 15px;border:1px solid #dfe1e5;border-radius:24px;background:#fff;box-shadow:0 1px 6px rgba(32,33,36,.28)}
+.search-container{display:flex;align-items:center;box-sizing:border-box;padding:8px 15px;border:1px solid #dfe1e5;border-radius:24px;background:#fff;box-shadow:0 1px 6px rgba(32,33,36,.28)}
 .lens-btn,.search-input{border:0;background:none}
 .lens-btn{cursor:pointer;font-size:18px;margin-right:8px;color:#5f6368}
 .search-input{width:100%;outline:0;font-size:16px}
 
-/* Hidden by default, shows ONLY when input is clicked/focused */
+/* Dropdown shrinks automatically to fit exactly how many items exist */
 .dropdown-menu{display:none;position:absolute;top:100%;left:0;width:100%;margin-top:6px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15);border:1px solid #ebebeb;overflow:hidden;z-index:100}
-.search-input:focus ~ .dropdown-menu{display:block}
 
-/* Suggestion items styling without lens icons */
-.suggestion-item{display:flex;align-items:center;padding:12px 18px;font-size:14px;color:#202124;cursor:pointer}
+/* Suggestion rows styling */
+.suggestion-item,.status-msg,.error-msg{display:flex;align-items:center;padding:12px 18px;font-size:14px;color:#202124;cursor:pointer}
 .suggestion-item:hover{background:#f1f3f4}
 .suggestion-text{flex-grow:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.suggestion-subtext{color:#70757a;font-size:13px;margin-left:6px}
+.status-msg{color:#5f6368;background:#f8f9fa;cursor:default}
+.error-msg{color:#d93025;background:#fce8e6;cursor:default}
 </style>
 </head>
 <body>
 
 <header class="top-nav">
-<a href="#settings" class="settings-link">&#9881;</a>
-<div class="status-area">
-    <span>&#9679; Online</span>
-    <span>&#128340; <span id="search-time">0.02</span> ms</span>
-</div>
+    <a href="#settings" class="settings-link">&#9881;</a>
+    <div class="status-area">
+        <span>&#9679; Online</span>
+        <span>&#128340; 0.02 ms</span>
+    </div>
 </header>
 
 <main align="center" style="margin-top:40px">
-<h1><span class="color-being">Being</span><span class="color-infinity">Infinity</span></h1>
+<h1><span class="color-being">Being</span><span class="color-infinity">Zero</span></h1>
+<p style="color:#666;margin-bottom:25px;"><small>One million phrases, four algorithms, prefix based auto suggest</small></p>
 
-<p style="color: #666666;margin-bottom:25px;">
-    <small>One million phrases, four algorithms, prefix based auto suggest</small>
-</p>
-
-<form>
+<form onsubmit="return false;">
     <div class="search-wrapper">
         <div class="search-container">
             <button type="submit" class="lens-btn">&#128269;</button>
-            <input type="search" class="search-input" placeholder="Start typing..." autocomplete="off">
-            
-            <div class="dropdown-menu">
-                <div class="suggestion-item">
-                    <span class="suggestion-text"><strong>prefix</strong> based search</span>
-                    <span class="suggestion-subtext">- Algorithm 1</span>
-                </div>
-                <div class="suggestion-item">
-                    <span class="suggestion-text"><strong>prefix</strong> trees and tries</span>
-                    <span class="suggestion-subtext">- Data Structures</span>
-                </div>
-                <div class="suggestion-item">
-                    <span class="suggestion-text">four algorithms overview</span>
-                    <span class="suggestion-subtext">- Documentation</span>
-                </div>
-                <div class="suggestion-item">
-                    <span class="suggestion-text">One Million phrases dataset</span>
-                    <span class="suggestion-subtext">- Benchmark</span>
-                </div>
-            </div>
+            <input type="search" id="search-input" class="search-input" placeholder="Start typing..." autocomplete="off">
         </div>
+        <div id="dropdown-menu" class="dropdown-menu"></div>
     </div>
 </form>
-
 </main>
+<script>
+const inp = document.getElementById('search-input'), menu = document.getElementById('dropdown-menu');
+let timer;
+const getArr = o => Array.isArray(o) ? o : !o || typeof o !== 'object' ? [] : ['data','suggestions','results','phrases','matches'].reduce((a,k) => a.length ? a : Array.isArray(o[k]) ? o[k] : [], []) || Object.values(o).find(Array.isArray) || [];
+inp.addEventListener('input', function() {
+    const q = this.value.trim();
+    clearTimeout(timer);
+    if (!q) {
+        menu.style.display = 'none';
+        return;
+    }
+    menu.innerHTML = `<div class="status-msg">&#8987; Searching dataset...</div>`;
+    menu.style.display = 'block';
+    timer = setTimeout(async () => {
+        try {
+            const res = await fetch(`https://autosuggest-backend.onrender.com/api/autosuggest?q=${encodeURIComponent(q)}&algorithm=brute&limit=6&weighted=false`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            render(getArr(data).slice(0, 6));
+        } catch (e) {
+            menu.innerHTML = `<div class="error-msg">&#9888; API Error (${e.message})</div>`;
+        }
+    }, 150);
+});
+function render(list) {
+    if (!list.length) {
+        menu.innerHTML = `<div class="status-msg">No matching suggestions found</div>`;
+        return;
+    }
+    menu.innerHTML = list.map(i => {
+        let txt = typeof i === 'object' && i !== null ? (i.phrase || i.text || i.suggestion || i.word || Object.values(i)[0] || "") : i;
+        return `<div class="suggestion-item" onclick="inp.value='${String(txt).replace(/'/g,"\\'")}';menu.style.display='none'"><span class="suggestion-text">${txt}</span></div>`;
+    }).join('');
+}
+document.addEventListener('click', e => {
+    if (!e.target.closest('.search-wrapper')) menu.style.display = 'none';
+});
+inp.addEventListener('focus', function() {
+    if (this.value.trim() && menu.innerHTML.trim()) menu.style.display = 'block';
+});
+</script>
 </body>
-</html>
+</html>w
