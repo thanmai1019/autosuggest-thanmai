@@ -1,33 +1,41 @@
+index.html : 
+
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
-    <div id="nav">
-        <a href="/">Home</a>
-        <a href="https://github.com/thanmai1019/autosuggest-thanmai">Github</a>
-        <a href="https://leetcode.com/thanmai_1903/">Leetcode</a>
-        <a href="./pages/autosuggest.html">Autosuggest</a>
+  <div id="nav">
+    <a href="/"> Home </a>
+    <a href="https://github.com" target="_blank"> Github </a>
+    <a href="https://leetcode.com"> Leetcode </a>
+    <a href="./pages/autosuggest.html"> Auto suggest </a>
+  </div>
+  <div id="home-intro">
+    <h1> Home Page</h1>
+    <p id="p1"> Operations on user card</p>
+    <p id="p2"> Toggle, Get random user and much more</p>
+  </div>
+
+  <div id="card">
+    <div id="card-img">
+      <img id="img" src="./images/jane (1).png" alt="no img found">
     </div>
 
-    <div id="home-page">
-        <h1>Home Page</h1>
-        <p id="p1">Operations on user card</p>
-        <p id="p2">Toggle, Get random user and much more.</p>
+    <div id="action">
+      <h1 id="card-name"> Jane Doe </h1>
+      <p id="card-gender"> Female </p>
+      <button onclick="toggle()" id="card-toggle"> Toggle </button>
+      <button onclick="getRandomUser()" id="RandomUser">RandomUser</button>
     </div>
-
-    <div class="profile-card">
-        <img src="./images/jane (1).png" alt="Profile Picture" class="profile-pic">
-        <h2 class="profile-name">Thanmai</h2>
-        <p class="profile-gender">Female</p>
     </div>
-
-    <script src="index.js"></script>
-    
+  <script src="index.js"></script>
 </body>
 </html>
+```
