@@ -3,12 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>BeingInfinity - Auto Suggest</title>
+    <style>
+        /* Two distinct colors for the logo text */
+        .color-being {
+            color: #202124; /* Dark charcoal/black */
+        }
+        .color-infinity {
+            color: #1a73e8; /* Vibrant tech blue */
+        }
+
+        /* Curved wrapper containing both the left icon and the input field */
+        .search-container {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 25px; /* Curves both ends of the outer bar */
+            padding: 5px 15px;
+            width: 450px;
+            max-width: 80vw;
+            background-color: #ffffff;
+        }
+
+        /* Subtle highlight for the entire bar when typing inside it */
+        .search-container:focus-within {
+            border-color: #888;
+        }
+
+        /* Styles the lens button sitting inside on the left */
+        .lens-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px 5px 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Seamless input field without its own internal borders */
+        .search-input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
+            background: transparent;
+        }
+    </style>
 </head>
-<body>
-    <h1> Autosuggest Page</h1>
-    <p> This page is for autosuggest feature.</p>
-    
-    
+<body bgcolor="#FFFFFF">
+
+    <header>
+        <div align="right">
+            <a href="#settings" aria-label="Settings" title="Settings" style="font-size: 24px; text-decoration: none; color: #333;">
+                &#9881;
+            </a>
+        </div>
+    </header>
+
+    <main align="center">
+        
+        <h1>
+            <span class="color-being">Being</span><span class="color-infinity">Infinity</span>
+        </h1>
+
+        <p>
+            <small>One million phrases, four algorithms, prefix based auto suggest</small>
+        </p>
+
+        <form action="#" method="get">
+            <div class="search-container">
+                
+                <button type="submit" class="lens-btn" aria-label="Search">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+
+                <input 
+                    type="search" 
+                    class="search-input"
+                    id="search-bar" 
+                    name="query" 
+                    list="phrase-suggestions" 
+                    placeholder="Start typing..." 
+                    autocomplete="off"
+                >
+
+            </div>
+
+            <datalist id="phrase-suggestions">
+                <option value="prefix based search">
+                <option value="prefix trees and tries">
+                <option value="four algorithms overview">
+                <option value="one million phrases dataset">
+            </datalist>
+        </form>
+
+    </main>
+
 </body>
 </html>
